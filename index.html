@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happitoes — Clothing for Tiny Toes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #fdf8f3;
+    --blush: #f5e6d8;
+    --peach: #e8c4a8;
+    --terracotta: #c47d55;
+    --sage: #8fad8c;
+    --sage-light: #d8ebd6;
+    --text-dark: #2c2118;
+    --text-mid: #6b5344;
+    --text-light: #a08060;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(253,248,243,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(196,125,85,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--terracotta);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { font-style: italic; }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--terracotta); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 5% 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 55%;
+    height: 115%;
+    background: var(--blush);
+    border-radius: 40% 0 0 60%;
+    z-index: 0;
+  }
+
+  .hero-text { position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--sage-light);
+    color: #4a7347;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.8rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    line-height: 1.1;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: #b0693f; transform: translateY(-1px); }
+
+  .btn-outline {
+    border: 1.5px solid var(--terracotta);
+    color: var(--terracotta);
+    background: transparent;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { background: var(--terracotta); color: white; }
+
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .hero-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .hero-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(196,125,85,0.1);
+    transition: transform 0.2s;
+  }
+
+  .hero-card:hover { transform: translateY(-4px); }
+
+  .hero-card .emoji { font-size: 2.5rem; display: block; margin-bottom: 0.6rem; }
+  .hero-card .card-label { font-size: 0.8rem; font-weight: 500; color: var(--text-mid); }
+  .hero-card .card-title { font-size: 1rem; font-weight: 500; color: var(--text-dark); margin-top: 0.2rem; }
+
+  .hero-card.featured {
+    background: var(--terracotta);
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .hero-card.featured .emoji { font-size: 2rem; margin-bottom: 0; flex-shrink: 0; }
+  .hero-card.featured .card-label { color: rgba(255,255,255,0.7); }
+  .hero-card.featured .card-title { color: white; font-size: 1.1rem; }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 5%; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.2;
+    color: var(--text-dark);
+    margin-bottom: 1.2rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--terracotta); }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    max-width: 520px;
+    font-weight: 300;
+  }
+
+  /* WHY US */
+  .why {
+    background: var(--text-dark);
+    color: white;
+    border-radius: 32px;
+    margin: 0 3%;
+    padding: 5rem 5%;
+  }
+
+  .why .section-title { color: white; }
+  .why .section-label { color: var(--peach); }
+  .why .section-desc { color: rgba(255,255,255,0.6); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .why-item { }
+
+  .why-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(196,125,85,0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .why-item h3 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.6rem;
+  }
+
+  .why-item p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* PRODUCTS */
+  .products { background: var(--cream); }
+
+  .products-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(44,33,24,0.06);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 36px rgba(196,125,85,0.15);
+  }
+
+  .product-thumb {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-thumb.pink { background: #fde8ee; }
+  .product-thumb.mint { background: #d8f0e8; }
+  .product-thumb.sky { background: #dceefb; }
+  .product-thumb.lavender { background: #ebe4f8; }
+  .product-thumb.peach { background: #fce8d8; }
+  .product-thumb.lemon { background: #fdf4d0; }
+
+  .coming-soon-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border-radius: 50px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .product-info { padding: 1.3rem 1.5rem 1.5rem; }
+
+  .product-category {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-name {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-desc {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* VALUES */
+  .values { background: var(--blush); }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .values-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .value-row {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .value-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: rgba(196,125,85,0.25);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+  }
+
+  .value-content h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .value-content p {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .values-image {
+    background: white;
+    border-radius: 28px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    box-shadow: 0 8px 40px rgba(196,125,85,0.12);
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .values-image p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-light);
+  }
+
+  /* NOTIFY */
+  .notify {
+    background: linear-gradient(135deg, var(--terracotta) 0%, #9e5e38 100%);
+    color: white;
+    text-align: center;
+    border-radius: 32px;
+    margin: 0 3%;
+    padding: 5rem 8%;
+  }
+
+  .notify .section-label { color: rgba(255,255,255,0.6); }
+  .notify .section-title { color: white; margin-left: auto; margin-right: auto; max-width: 600px; }
+  .notify .section-desc { color: rgba(255,255,255,0.7); margin: 0 auto 2.5rem; }
+
+  .notify-form {
+    display: flex;
+    gap: 0.8rem;
+    max-width: 440px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .notify-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.9rem 1.4rem;
+    border: none;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    outline: none;
+    backdrop-filter: blur(4px);
+  }
+
+  .notify-form input::placeholder { color: rgba(255,255,255,0.5); }
+  .notify-form input:focus { background: rgba(255,255,255,0.25); }
+
+  .notify-form button {
+    background: white;
+    color: var(--terracotta);
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .notify-form button:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+  .notify-note { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 1rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-top: 1px solid rgba(196,125,85,0.12);
+    margin-top: 4rem;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--terracotta);
+  }
+
+  .footer-logo span { font-style: italic; }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--terracotta); }
+
+  .footer-copy { font-size: 0.8rem; color: var(--text-light); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .fade-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-up:nth-child(2) { animation-delay: 0.25s; }
+  .fade-up:nth-child(3) { animation-delay: 0.4s; }
+  .fade-up:nth-child(4) { animation-delay: 0.55s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 7rem; }
+    .hero::before { display: none; }
+    .hero-desc { margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
+    .hero-cards { max-width: 340px; }
+    .values-grid { grid-template-columns: 1fr; }
+    .values-image { height: 260px; font-size: 5rem; }
+    nav { padding: 1rem 4%; }
+    .nav-links { gap: 1.5rem; }
+    .nav-links li:last-child { display: none; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">happi<span>toes</span></a>
+  <ul class="nav-links">
+    <li><a href="#products">Collection</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#notify">Notify Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge fade-up">✦ Launching Soon</div>
+    <h1 class="fade-up">
+      Dressed for<br>
+      <em>every tiny<br>adventure</em>
+    </h1>
+    <p class="hero-desc fade-up">
+      Soft, safe, and oh-so-adorable clothing for babies and toddlers. 
+      Made with love, designed for curious little ones.
+    </p>
+    <div class="hero-actions fade-up">
+      <a href="#products" class="btn-primary">Explore Collection</a>
+      <a href="#notify" class="btn-outline">Get Notified</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-cards">
+      <div class="hero-card">
+        <span class="emoji">👶</span>
+        <div class="card-label">Age Range</div>
+        <div class="card-title">0–3 Years</div>
+      </div>
+      <div class="hero-card">
+        <span class="emoji">🌿</span>
+        <div class="card-label">Material</div>
+        <div class="card-title">100% Soft Cotton</div>
+      </div>
+      <div class="hero-card featured">
+        <span class="emoji">🎀</span>
+        <div>
+          <div class="card-label">Our Promise</div>
+          <div class="card-title">Safe & Skin-Friendly Always</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HAPPITOES -->
+<div class="why" id="about">
+  <div class="section-label">Why Happitoes</div>
+  <div class="section-title">Built around <em>baby first</em></div>
+  <p class="section-desc">Everything we design starts with one question — is it good for baby? Comfort, safety, and joy guide every stitch.</p>
+
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon">🧵</div>
+      <h3>Premium Soft Fabrics</h3>
+      <p>Gentle on delicate skin. We use only certified, breathable cotton that feels like a hug all day long.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🔒</div>
+      <h3>Safety First</h3>
+      <p>No harmful dyes. No loose buttons. Every design is rigorously checked for baby safety standards.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🎨</div>
+      <h3>Adorable Designs</h3>
+      <p>Cute prints, cheerful colours, and fun patterns that make dressing up the best part of the day.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💸</div>
+      <h3>Affordable for Families</h3>
+      <p>Quality baby clothing shouldn't break the bank. We keep prices fair so every baby can look their best.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-header">
+    <div>
+      <div class="section-label">Our Collection</div>
+      <div class="section-title">Little looks,<br><em>big smiles</em></div>
+    </div>
+    <p class="section-desc">A sneak peek at what's coming. Launching soon — and it's going to be adorable.</p>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-thumb pink">
+        🌸
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Onesies</div>
+        <div class="product-name">Blossom Bodysuit</div>
+        <p class="product-desc">Snap-button romper in soft blush cotton. Perfect for newborns 0–6 months.</p>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-thumb mint">
+        🐸
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Sets</div>
+        <div class="product-name">Froggy 2-Piece Set</div>
+        <p class="product-desc">A playful top & pants combo in mint. Great for 6–18 months crawlers.</p>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-thumb sky">
+        ☁️
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Sleepwear</div>
+        <div class="product-name">Cloud Dreamsuit</div>
+        <p class="product-desc">Ultra-soft full-body sleeper for cosy nights. Available 0–24 months.</p>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-thumb lavender">
+        🦋
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Dresses</div>
+        <div class="product-name">Butterfly Frock</div>
+        <p class="product-desc">A delicate layered dress for special occasions. Sizes 12–36 months.</p>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-thumb peach">
+        🧸
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Casual</div>
+        <div class="product-name">Teddy Tee + Shorts</div>
+        <p class="product-desc">Everyday comfort in soft peach. Designed for little explorers.</p>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-thumb lemon">
+        🌟
+        <span class="coming-soon-tag">Coming Soon</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Accessories</div>
+        <div class="product-name">Sunshine Gift Set</div>
+        <p class="product-desc">Bib, mittens, and booties in cheerful yellow. A perfect new baby gift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values">
+  <div class="values-grid">
+    <div>
+      <div class="section-label">Our Promise</div>
+      <div class="section-title">A brand that <em>cares deeply</em></div>
+      <p class="section-desc">Happitoes is more than clothing. It's a promise to every parent — we'll always put your baby's wellbeing first.</p>
+
+      <div class="values-list">
+        <div class="value-row">
+          <div class="value-num">01</div>
+          <div class="value-content">
+            <h4>Gentle on skin</h4>
+            <p>Only non-toxic, certified fabrics. No irritants, no rashes — just softness.</p>
+          </div>
+        </div>
+        <div class="value-row">
+          <div class="value-num">02</div>
+          <div class="value-content">
+            <h4>Easy for parents</h4>
+            <p>Snap buttons, stretchy necks, easy zips — because wriggling babies need fast changes.</p>
+          </div>
+        </div>
+        <div class="value-row">
+          <div class="value-num">03</div>
+          <div class="value-content">
+            <h4>Made to last</h4>
+            <p>Wash after wash, our colours stay bright and fabric stays soft. Quality that grows with you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="values-image">
+      <div>🧸👕🎀</div>
+      <p>"Soft starts for happy hearts"</p>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFY -->
+<div class="notify" id="notify">
+  <div class="section-label">Stay in the loop</div>
+  <div class="section-title">Be the first to<br><em>shop Happitoes</em></div>
+  <p class="section-desc">We're getting ready to launch. Drop your email and we'll let you know the moment we're open — with an early bird discount!</p>
+
+  <form class="notify-form" onsubmit="handleSignup(event)">
+    <input type="email" placeholder="Your email address" required id="emailInput">
+    <button type="submit">Notify Me 🎉</button>
+  </form>
+  <p class="notify-note" id="notify-msg">No spam, ever. Just the exciting launch news.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">happi<span>toes</span></div>
+  <ul class="footer-links">
+    <li><a href="#products">Collection</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#notify">Notify Me</a></li>
+    <li><a href="mailto:hello@happitoes.com">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Happitoes. All rights reserved.</div>
+</footer>
+
+<script>
+  function handleSignup(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const msg = document.getElementById('notify-msg');
+    btn.textContent = '✓ You\'re on the list!';
+    btn.style.background = '#d8f0e8';
+    btn.style.color = '#2a6a40';
+    msg.textContent = 'Thank you! We\'ll reach out when Happitoes launches. 🎀';
+    msg.style.color = 'rgba(255,255,255,0.85)';
+    document.getElementById('emailInput').value = '';
+  }
+
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card, .why-item, .value-row').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
